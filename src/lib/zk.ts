@@ -118,9 +118,9 @@ export default function(registry, {
             case 'children':
                 const parent = await getChildrenRecursionPromise(client, pathname, {}, { depth });
                 console.log(asTree(parent));
-                client.close();
                 break;
         }
+        client.close();
     });
 
     client.connect();
