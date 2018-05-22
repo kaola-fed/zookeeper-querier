@@ -1,5 +1,8 @@
 # zookeeper-querier
 
+## 注意事项
+* ⚠️ node 版本要求 v8.9.x 以上
+
 ## 快速开始
 ### 1. 安装到全局
 
@@ -13,13 +16,15 @@ $ npm i -g zookeeper-querier
 $ zk set regsitry ${zkHost}
 ```
 
-### 3. 查询 children
+## 使用方法
+
+### 1. 查询 children
 
 ```bash
 $ zk get children /disconf
 ```
 
-### 4. 查询 data
+### 2. 查询 data
 ```bash
 $ zk get data /disconf
 ```
