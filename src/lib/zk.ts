@@ -106,9 +106,7 @@ async function getChildrenRecursionPromise (
 export default function(registry, {
     type, path: pathname, depth = 3
 }) {
-
     const client = createClient(registry);
-
     client.once('connected', async function () {
         switch (type) {
             case 'data':
