@@ -54,32 +54,42 @@ async function getChildrenRecursion (
 
     currentDepth++;
 
-    const children = await getChildren(client, pathname);
+    let children;
+
+    try {
+        children = await getChildren(client, pathname);
+    } catch(e) {
+        return callback(e);
+    }
 
     if (children.length === 0) {
         callback(null, parent);
     } else {
-        await Promise.all(
-            children.map(item => {
-                Object.assign(parent, {
-                    [item]: {}
-                })
-
-                return getChildrenRecursionPromise(
-                    client,
-                    path.join(pathname, item),
-                    parent[item], {
-                        depth,
-                        currentDepth
-                    }
-                ).then(result => {
-                    if (Object.keys(result).length === 0) {
-                        parent[item] = null;
-                    }
-                    return parent;
-                });
+        const promises = children.map(item => {
+            Object.assign(parent, {
+                [item]: {}
             })
-        );
+
+            return getChildrenRecursionPromise(
+                client,
+                path.join(pathname, item),
+                parent[item], {
+                    depth,
+                    currentDepth
+                }
+            ).then(result => {
+                if (Object.keys(result).length === 0) {
+                    parent[item] = null;
+                }
+                return parent;
+            });
+        })
+
+        try {
+            await Promise.all(promises);
+        } catch(e) {
+            return callback(e);
+        }
 
         callback(null, parent);
     }
@@ -107,12 +117,24 @@ export default function(registry, {
     type, path: pathname, depth = 3
 }) {
     const client = createClient(registry);
+    let connected = false;
+
+    let timeout = setTimeout(function() {
+        if (connected) {
+            console.error(`zk 节点 ${registry} 连接超时`);
+            process.exit(1);
+        }
+    }, 5000);
+
     client.once('connected', async function () {
+        connected = true;
+
         try {
             switch (type) {
                 case 'data':
                     const data = await getData(client, pathname);
                     console.log(data);
+                    
                     break;
                 case 'children':
                     const parent = await getChildrenRecursionPromise(client, pathname, {}, { depth });
@@ -120,11 +142,16 @@ export default function(registry, {
                     break;
             }
         } catch(e) {
-            console.error(e);
+            console.log(`registry: ${registry}`);
+            console.log(`pathname: ${pathname}`);
+            console.log(`message: ${e.message}`);
         }
 
         client.close();
+        clearTimeout(timeout);
     });
 
     client.connect();
+
+    
 }
