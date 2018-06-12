@@ -108,16 +108,21 @@ export default function(registry, {
 }) {
     const client = createClient(registry);
     client.once('connected', async function () {
-        switch (type) {
-            case 'data':
-                const data = await getData(client, pathname);
-                console.log(data);
-                break;
-            case 'children':
-                const parent = await getChildrenRecursionPromise(client, pathname, {}, { depth });
-                console.log(asTree(parent));
-                break;
+        try {
+            switch (type) {
+                case 'data':
+                    const data = await getData(client, pathname);
+                    console.log(data);
+                    break;
+                case 'children':
+                    const parent = await getChildrenRecursionPromise(client, pathname, {}, { depth });
+                    console.log(asTree(parent));
+                    break;
+            }
+        } catch(e) {
+            console.error(e);
         }
+
         client.close();
     });
 
