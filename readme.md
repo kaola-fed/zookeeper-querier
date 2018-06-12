@@ -13,7 +13,7 @@ $ npm i -g zookeeper-querier
 ### 2. 设置 zk 注册中心
 
 ```bash
-$ zk set regsitry ${zkHost}
+$ zk set registry ${zkHost}
 ```
 
 ## 使用方法
