@@ -1,7 +1,7 @@
 # zookeeper-querier
 
 ## Required
-* ⚠️ node 版本要求 v8.9.x 以上
+* ⚠️ Node >= 8
 
 ## Quick start
 ### 1. Install
