@@ -47,6 +47,20 @@ const args = yargs // eslint-disable-line
         handler(argv) {
         }
     })
+    .command('mkdirp [path] [data]', 'mkdirp zkpath', {
+        builder(yargs) {
+            return yargs
+                .positional('path', {
+                    describe: 'it\' the path which zknode\'s dir you want to mkdirp'
+                })
+                .positional('data', {
+                    describe: 'it\' the path which zknode\'s dir data you want to mkdirp'
+                })
+                .describe('depth', 'depth')
+        },
+        handler(argv) {
+        }
+    })
     .version(`1.0.0`)
     .help('help')
     .argv;
