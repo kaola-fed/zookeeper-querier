@@ -10,7 +10,7 @@
 $ npm i -g zookeeper-querier
 ```
 
-### 2. 增加 `registry`
+### 2. 增加 registry
 
 ```bash
 $ zk add test "zookeeper://10.237.12.1:2181,10.237.12.2:2181,10.237.12.3:2181"
@@ -19,7 +19,7 @@ $ zk add testDisconf "zookeeper://10.237.14.1:2181,10.237.14.2:2181,10.237.14.3:
 ```
 
 ## 使用方法
-### 1. 切换需要查询的 `registry`
+### 1. 切换需要查询的 registry
 ```bash
 $ zk switch
 ```
