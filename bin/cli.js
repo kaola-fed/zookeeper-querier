@@ -47,6 +47,17 @@ const args = yargs // eslint-disable-line
         handler(argv) {
         }
     })
+    .command('getChildrenData [path]', 'get zknode children detail', {
+        builder(yargs) {
+            return yargs
+                .positional('path', {
+                    describe: 'it\' the path which zknode\'s children you want to query'
+                })
+                .describe('depth', 'depth')
+        },
+        handler(argv) {
+        }
+    })
     .command('mkdirp [path] [data]', 'mkdirp zkpath', {
         builder(yargs) {
             return yargs
